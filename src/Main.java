@@ -26,64 +26,47 @@ public class Main {
                 showGuestMenu();
                 String choice = scanner.nextLine().trim();
                 switch (choice) {
-                    case "1":
-                        currentUser = handleLogin(scanner, users);
-                        break;
-                    case "2":
-                        createAccount(scanner, users, userStorage);
-                        break;
-                    case "3":
-                        running = false;
-                        break;
-                    default:
-                        System.out.println("Invalid option. Please try again.");
+                    case "1" -> currentUser = handleLogin(scanner, users);
+                    case "2" -> createAccount(scanner, users, userStorage);
+                    case "3" -> running = false;
+                    default -> System.out.println("Invalid option. Please try again.");
                 }
             } else {
                 showUserMenu(currentUser);
                 String choice = scanner.nextLine().trim();   //trim avoid space
                 switch (choice) {
-                    case "1":
-                        browseMovies(movieLibrary);
-                        break;
-                    case "2":
+                    case "1" -> browseMovies(movieLibrary);
+                    case "2" -> {
                         addMovieToWatchlist(scanner, currentUser, movieLibrary);
                         userStorage.saveUsers(users, USER_FILE);
-                        break;
-                    case "3":
+                    }
+                    case "3" -> {
                         removeMovieFromWatchlist(scanner, currentUser, movieLibrary);
                         userStorage.saveUsers(users, USER_FILE);
-                        break;
-                    case "4":
-                        viewWatchlist(currentUser, movieLibrary);
-                        break;
-                    case "5":
+                    }
+                    case "4" -> viewWatchlist(currentUser, movieLibrary);
+
+                    case "5" -> {
                         markMovieAsWatched(scanner, currentUser, movieLibrary);
                         userStorage.saveUsers(users, USER_FILE);
-                        break;
-                    case "6":
-                        viewHistory(currentUser, movieLibrary);
-                        break;
-                    case "7":
-                        getRecommendations(scanner, currentUser, movieLibrary, recommendationEngine);
-                        break;
-                    case "8":
+                    }
+                    case "6" -> viewHistory(currentUser, movieLibrary);
+                    case "7" -> getRecommendations(scanner, currentUser, movieLibrary, recommendationEngine);
+                    case "8" -> {
                         changePassword(scanner, currentUser);
                         userStorage.saveUsers(users, USER_FILE);
-                        break;
-                    case "9":
+                    }
+                    case "9" -> {
                         currentUser = null;
                         System.out.println("Logged out.");
-                        break;
-                    case "10":
-                        running = false;
-                        break;
-                    default:
-                        System.out.println("Invalid option. Please try again.");
+                    }
+                    case "10" -> running = false;
+                    default -> System.out.println("Invalid option. Please try again.");
                 }
             }
         }
 
-        userStorage.saveUsers(users, USER_FILE);
+        userStorage.saveUsers(users, USER_FILE);   //backup
         scanner.close();
         System.out.println("Goodbye!");
     }
