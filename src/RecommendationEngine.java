@@ -12,8 +12,8 @@ public class RecommendationEngine {
     public ArrayList<String> listGenres(MovieLibrary library) {
         ArrayList<String> genres = new ArrayList<>();
         ArrayList<Movie> movies = library.getAllMovies();
-        for (int i = 0; i < movies.size(); i++) {
-            String genre = movies.get(i).getGenre();
+        for (Movie movie : movies) {
+            String genre = movie.getGenre();
             if (!containsIgnoreCase(genres, genre)) {
                 genres.add(genre);
             }
@@ -24,11 +24,10 @@ public class RecommendationEngine {
 
     // Main entry: filter by genre (or ALL), exclude watched/watchlist, then sort.
     public ArrayList<Movie> recommend(User user, MovieLibrary library, String genreFilter, String sortMode, int n) {
-        boolean allGenres = genreFilter == null || genreFilter.length() == 0;
+        boolean allGenres = genreFilter == null || genreFilter.isEmpty();
         ArrayList<Movie> candidates = new ArrayList<>();
         ArrayList<Movie> all = library.getAllMovies();
-        for (int i = 0; i < all.size(); i++) {
-            Movie movie = all.get(i);
+        for (Movie movie : all) {
             if (!allGenres && !movie.getGenre().equalsIgnoreCase(genreFilter)) {
                 continue;
             }
@@ -71,29 +70,31 @@ public class RecommendationEngine {
 
     // Decide if "current" should come before "target" under the given mode.
     private boolean better(Movie current, Movie target, String mode) {
-        if (mode.equals(MODE_RATING_ASC)) {
-            return current.getRating() < target.getRating();
-        }
-        if (mode.equals(MODE_YEAR_DESC)) {
-            if (current.getYear() > target.getYear()) {
-                return true;
+        switch (mode) {
+            case MODE_RATING_ASC -> {
+                return current.getRating() < target.getRating();
             }
-            if (current.getYear() == target.getYear()) {
-                return current.getRating() > target.getRating();
+            case MODE_YEAR_DESC -> {
+                if (current.getYear() > target.getYear()) {
+                    return true;
+                }
+                if (current.getYear() == target.getYear()) {
+                    return current.getRating() > target.getRating();
+                }
+                return false;
             }
-            return false;
-        }
-        if (mode.equals(MODE_YEAR_ASC)) {
-            if (current.getYear() < target.getYear()) {
-                return true;
+            case MODE_YEAR_ASC -> {
+                if (current.getYear() < target.getYear()) {
+                    return true;
+                }
+                if (current.getYear() == target.getYear()) {
+                    return current.getRating() > target.getRating();
+                }
+                return false;
             }
-            if (current.getYear() == target.getYear()) {
-                return current.getRating() > target.getRating();
+            case MODE_RANDOM -> {
+                return false;
             }
-            return false;
-        }
-        if (mode.equals(MODE_RANDOM)) {
-            return false;
         }
         return current.getRating() > target.getRating();
     }
@@ -124,8 +125,8 @@ public class RecommendationEngine {
     }
 
     private boolean containsIgnoreCase(ArrayList<String> list, String text) {
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).equalsIgnoreCase(text)) {
+        for (String s : list) {
+            if (s.equalsIgnoreCase(text)) {
                 return true;
             }
         }
@@ -136,9 +137,6 @@ public class RecommendationEngine {
         if (user.getWatchlist().contains(movieId)) {
             return true;
         }
-        if (user.hasWatched(movieId)) {
-            return true;
-        }
-        return false;
+        return user.hasWatched(movieId);
     }
 }

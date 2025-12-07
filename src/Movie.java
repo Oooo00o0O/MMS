@@ -1,10 +1,10 @@
 // Represents one movie record loaded from CSV.
 public class Movie {
-    private String id;
-    private String title;
-    private String genre;
-    private int year;
-    private double rating;
+    private final String id;
+    private final String title;
+    private final String genre;
+    private final int year;
+    private final double rating;
 
     public Movie(String id, String title, String genre, int year, double rating) {
         this.id = id;

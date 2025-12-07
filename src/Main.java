@@ -118,7 +118,7 @@ public class Main {
         System.out.println("\n--- Create Account ---");
         System.out.print("Choose a username: ");
         String username = scanner.nextLine().trim();
-        if (username.length() == 0) {
+        if (username.isEmpty()) {
             System.out.println("Username cannot be empty.");
             return;
         }
@@ -148,8 +148,7 @@ public class Main {
     private static void browseMovies(MovieLibrary library, User currentUser) {
         System.out.println("\n--- All Movies ---");
         ArrayList<Movie> movies = library.getAllMovies();
-        for (int i = 0; i < movies.size(); i++) {
-            Movie movie = movies.get(i);
+        for (Movie movie : movies) {
             String status = "";
             if (currentUser != null && currentUser.hasWatched(movie.getId())) {
                 status = "[watched] ";
@@ -213,8 +212,7 @@ public class Main {
             return;
         }
         System.out.println("\n--- Your Watchlist ---");
-        for (int i = 0; i < items.size(); i++) {
-            String id = items.get(i);
+        for (String id : items) {
             Movie movie = library.getMovieById(id);
             if (movie != null) {
                 System.out.println(movie.shortDescription());
@@ -248,8 +246,7 @@ public class Main {
             return;
         }
         System.out.println("\n--- Viewing History ---");
-        for (int i = 0; i < entries.size(); i++) {
-            History entry = entries.get(i);
+        for (History entry : entries) {
             Movie movie = library.getMovieById(entry.getMovieId());
             if (movie == null) {
                 System.out.println(entry.getMovieId() + " on " + entry.getWatchedDate());
@@ -268,7 +265,7 @@ public class Main {
         }
         System.out.println((genres.size() + 1) + ". All");
 
-        String genreFilter = null; // null means "All genres"
+        String genreFilter;
         while (true) {
             System.out.print("Enter choice: ");
             String genreChoiceText = scanner.nextLine().trim();
@@ -299,7 +296,7 @@ public class Main {
 //        System.out.print("Enter choice: ");
 //        String sortChoiceText = scanner.nextLine().trim();
 //        String sortMode = chooseSortMode(sortChoiceText);
-        int sortChoice = 1;
+        int sortChoice;
         while (true) {
 
             System.out.print("Enter choice: ");
@@ -327,7 +324,7 @@ public class Main {
 //        if (number > 10) {
 //            number = 10;
 //        }
-        int number = 0;
+        int number;
         while (true) {
             System.out.print("How many recommendations? (max 10): ");
             String text = scanner.nextLine().trim();

@@ -1,7 +1,7 @@
 // Represents a single watched movie entry with its date.
 public class History {
-    private String movieId;
-    private String watchedDate;
+    private final String movieId;
+    private final String watchedDate;
 
     public History(String movieId, String watchedDate) {
         this.movieId = movieId;

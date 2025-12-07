@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 // Stores movie IDs the user plans to watch.
 public class Watchlist {
-    private ArrayList<String> items;
+    private final ArrayList<String> items;
 
     public Watchlist() {
         items = new ArrayList<>();
@@ -36,8 +36,8 @@ public class Watchlist {
 
     public boolean contains(String movieId) {
         String id = movieId.toUpperCase();
-        for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).equalsIgnoreCase(id)) {
+        for (String item : items) {
+            if (item.equalsIgnoreCase(id)) {
                 return true;
             }
         }

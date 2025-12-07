@@ -1,9 +1,9 @@
 // Represents one user with credentials and personal lists.
 public class User {
-    private String username;
+    private final String username;
     private String password;
-    private Watchlist watchlist;
-    private HistoryLog history;
+    private final Watchlist watchlist;
+    private final HistoryLog history;
 
     public User(String username, String password, Watchlist watchlist, HistoryLog history) {
         this.username = username;
@@ -45,13 +45,12 @@ public class User {
     }
 
     // Add to history and remove from watchlist if present.
-    public boolean markWatched(String movieId, String date) {
+    public void markWatched(String movieId, String date) {
         String id = movieId.toUpperCase();
         history.addEntry(id, date);
         if (watchlist.contains(id)) {
             watchlist.remove(id);
         }
-        return true;
     }
 
     public String watchlistForStorage() {

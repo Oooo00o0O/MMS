@@ -8,7 +8,7 @@ import java.util.Scanner;
 // Loads and saves users.csv (username,password,watchlist,history).
 public class UserStorage {
     public HashMap<String, User> loadUsers(String path) {
-        HashMap<String, User> users = new HashMap<String, User>();
+        HashMap<String, User> users = new HashMap<>();
         try {
             File file = new File(path);
             if (!file.exists()) {
@@ -45,13 +45,13 @@ public class UserStorage {
     private ArrayList<String> parseWatchlist(String text) {
         ArrayList<String> list = new ArrayList<>();
         String trimmed = text.trim();
-        if (trimmed.length() == 0) {
+        if (trimmed.isEmpty()) {
             return list;
         }
         String[] parts = trimmed.split(";");
-        for (int i = 0; i < parts.length; i++) {
-            if (parts[i].trim().length() > 0) {
-                list.add(parts[i].trim().toUpperCase());
+        for (String part : parts) {
+            if (!part.trim().isEmpty()) {
+                list.add(part.trim().toUpperCase());
             }
         }
         return list;
@@ -61,13 +61,13 @@ public class UserStorage {
     private ArrayList<History> parseHistory(String text) {
         ArrayList<History> list = new ArrayList<>();
         String trimmed = text.trim();
-        if (trimmed.length() == 0) {
+        if (trimmed.isEmpty()) {
             return list;
         }
         String[] parts = trimmed.split(";");
-        for (int i = 0; i < parts.length; i++) {
-            String entry = parts[i].trim();
-            if (entry.length() == 0) {
+        for (String part : parts) {
+            String entry = part.trim();
+            if (entry.isEmpty()) {
                 continue;
             }
             String[] bits = entry.split("@");
@@ -80,7 +80,7 @@ public class UserStorage {
         return list;
     }
 
-    public boolean saveUsers(HashMap<String, User> users, String path) {
+    public void saveUsers(HashMap<String, User> users, String path) {
         try {
             PrintWriter writer = new PrintWriter(path);
             writer.println("username,password,watchlist,history");
@@ -89,10 +89,8 @@ public class UserStorage {
                 writer.println(line);
             }
             writer.close();
-            return true;
         } catch (FileNotFoundException e) {
             System.out.println("Unable to save users: " + e.getMessage());
-            return false;
         }
     }
 }

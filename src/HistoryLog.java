@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 // Stores all watched records for one user.
 public class HistoryLog {
-    private ArrayList<History> entries;
+    private final ArrayList<History> entries;
 
     public HistoryLog() {
         entries = new ArrayList<>();
@@ -25,8 +25,8 @@ public class HistoryLog {
 
     public boolean containsMovie(String movieId) {
         String id = movieId.toUpperCase();
-        for (int i = 0; i < entries.size(); i++) {
-            if (entries.get(i).getMovieId().equalsIgnoreCase(id)) {
+        for (History entry : entries) {
+            if (entry.getMovieId().equalsIgnoreCase(id)) {
                 return true;
             }
         }

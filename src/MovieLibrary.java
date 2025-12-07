@@ -1,5 +1,4 @@
 import java.io.File;
-//import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,12 +6,12 @@ import java.util.Scanner;
 
 // Loads movie data from CSV and provides lookup by id.
 public class MovieLibrary {
-    private ArrayList<Movie> movies;
-    private HashMap<String, Movie> movieMap;
+    private final ArrayList<Movie> movies;
+    private final HashMap<String, Movie> movieMap;
 
     public MovieLibrary() {
         movies = new ArrayList<>();
-        movieMap = new HashMap<String, Movie>();
+        movieMap = new HashMap<>();
     }
 
     public boolean loadFromFile(String path) {
