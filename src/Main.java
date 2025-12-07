@@ -122,6 +122,10 @@ public class Main {
             System.out.println("Username cannot be empty.");
             return;
         }
+        if (username.length() < 3 || username.length() > 14) {
+            System.out.println("Username length must be between 3 and 14 characters.");
+            return;
+        }
         if (users.containsKey(username)) {
             System.out.println("Username already exists.");
             return;
