@@ -21,7 +21,7 @@ public class UserStorage {
             }
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                String[] parts = line.split(",", -1);  //-1
+                String[] parts = line.split(",", -1);  //-1 keep the empty between ","
                 if (parts.length < 4) {
                     continue;
                 }

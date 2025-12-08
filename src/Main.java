@@ -297,9 +297,6 @@ public class Main {
         System.out.println("4. Year old to new");
         System.out.println("5. Random");
 
-//        System.out.print("Enter choice: ");
-//        String sortChoiceText = scanner.nextLine().trim();
-//        String sortMode = chooseSortMode(sortChoiceText);
         int sortChoice;
         while (true) {
 
@@ -319,15 +316,7 @@ public class Main {
 
         }
         String sortMode = chooseSortMode(sortChoice);
-//        System.out.print("How many recommendations? (default 5, max 10): ");
-//        String text = scanner.nextLine().trim();
-//        int number = parseNumber(text);
-//        if (number <= 0) {
-//            number = 5;
-//        }
-//        if (number > 10) {
-//            number = 10;
-//        }
+
         int number;
         while (true) {
             System.out.print("How many recommendations? (max 10): ");
@@ -344,12 +333,6 @@ public class Main {
                 System.out.println("Please enter a valid number.");
             }
         }
-//        if (number <= 0) {
-//            number = 5;
-//        }
-//        if (number > 10) {
-//            number = 10;
-//        }
 
         ArrayList<Movie> recs = engine.recommend(user, library, genreFilter, sortMode, number);
         if (recs.isEmpty()) {
@@ -388,32 +371,6 @@ public class Main {
         System.out.println("Password updated.");
     }
 
-//    private static int parseNumber(String text) {
-//        if (text == null || text.length() == 0) {
-//            return -1;
-//        }
-//        try {
-//            return Integer.parseInt(text);
-//        } catch (NumberFormatException e) {
-//            return -1;
-//        }
-//    }
-
-    //    private static String chooseSortMode(String choice) {
-//        if (choice.equals("2")) {
-//            return RecommendationEngine.MODE_RATING_ASC;
-//        }
-//        if (choice.equals("3")) {
-//            return RecommendationEngine.MODE_YEAR_DESC;
-//        }
-//        if (choice.equals("4")) {
-//            return RecommendationEngine.MODE_YEAR_ASC;
-//        }
-//        if (choice.equals("5")) {
-//            return RecommendationEngine.MODE_RANDOM;
-//        }
-//        return RecommendationEngine.MODE_RATING_DESC;
-//    }
     private static String chooseSortMode(int choice) {
         return switch (choice) {
             case 2 -> RecommendationEngine.MODE_RATING_ASC;

@@ -1,5 +1,5 @@
 import java.io.File;
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -15,43 +15,36 @@ public class MovieLibrary {
     }
 
     public boolean loadFromFile(String path) {
-        /*movies.clear();
-        movieMap.clear();*/
         try {
             File file = new File(path);
             Scanner input = new Scanner(file);
-            if (input.hasNextLine()) {    //跳过表头id,title,genre,year,rating那行
+            if (input.hasNextLine()) {    //skip the first line which is id,title,genre,year,rating
                 input.nextLine();
             }
             while (input.hasNextLine()) {
                 String line = input.nextLine();
                 String[] parts = line.split(",");
-                /*if (parts.length < 5) {
+                if (parts.length < 5) {
                     continue;
-                }*/
-                /*String id = parts[0].trim().toUpperCase();
+                }
+                String id = parts[0].trim().toUpperCase();
                 String title = parts[1].trim();
                 String genre = parts[2].trim();
                 int year = safeParseInt(parts[3].trim());
-                double rating = safeParseDouble(parts[4].trim());*/
-                String id = parts[0].toUpperCase();
-                String title = parts[1];
-                String genre = parts[2];
-                int year = Integer.parseInt(parts[3]);
-                double rating = Double.parseDouble(parts[4]);
+                double rating = safeParseDouble(parts[4].trim());
                 Movie movie = new Movie(id, title, genre, year, rating);
                 movies.add(movie);
                 movieMap.put(id, movie);
             }
             input.close();
             return true;
-        } catch (IOException e) {  //FileNotFoundException?
+        } catch (FileNotFoundException e) {
             System.out.println("Movies file not found: " + path);
             return false;
         }
     }
 
-    /*private int safeParseInt(String text) {
+    private int safeParseInt(String text) {
         try {
             return Integer.parseInt(text);
         } catch (NumberFormatException e) {
@@ -65,7 +58,7 @@ public class MovieLibrary {
         } catch (NumberFormatException e) {
             return 0.0;
         }
-    }*/
+    }
 
     public ArrayList<Movie> getAllMovies() {
         return movies;
