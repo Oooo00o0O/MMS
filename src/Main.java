@@ -10,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) {
         MovieLibrary movieLibrary = new MovieLibrary();
-        if (!movieLibrary.loadFromFile(MOVIE_FILE)) {//哈哈哈哈哈
+        if (!movieLibrary.loadFromFile(MOVIE_FILE)) {
             return;
         }
 
