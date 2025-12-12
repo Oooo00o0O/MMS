@@ -32,8 +32,8 @@ public class User {
         return history;
     }
 
-    public boolean addToWatchlist(String movieId) {
-        return watchlist.add(movieId);
+    public void addToWatchlist(String movieId) {
+        watchlist.add(movieId);
     }
 
     public boolean removeFromWatchlist(String movieId) {

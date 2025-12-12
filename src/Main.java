@@ -169,6 +169,13 @@ public class Main {
             System.out.println("Movie not found.");
             return;
         }
+
+        // If already in watchlist, just report it and stop.
+        if (user.getWatchlist().contains(id)) {
+            System.out.println(movie.getTitle() + " (" + movie.getYear() + ") is already in your watchlist.");
+            return;
+        }
+
         if (user.hasWatched(id)) {
             System.out.println("You have watched this movie before.");
             while (true) {
@@ -183,11 +190,8 @@ public class Main {
                 System.out.println("Please enter y or n.");
             }
         }
-        if (user.addToWatchlist(id)) {
-            System.out.println(movie.getTitle() + " (" + movie.getYear() + ") is added to your watchlist.");
-        } else {
-            System.out.println(movie.getTitle() + " (" + movie.getYear() + ") is already in your watchlist.");
-        }
+        user.addToWatchlist(id);
+        System.out.println(movie.getTitle() + " (" + movie.getYear() + ") is added to your watchlist.");
     }
 
     private static void removeMovieFromWatchlist(Scanner scanner, User user, MovieLibrary library) {

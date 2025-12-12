@@ -13,13 +13,11 @@ public class Watchlist {
     }
 
     // Add if not already present (case-insensitive).
-    public boolean add(String movieId) {
+    public void add(String movieId) {
         String id = movieId.toUpperCase();
         if (!contains(id)) {
             items.add(id);
-            return true;
         }
-        return false;
     }
 
     // Remove matching ID if it exists.
