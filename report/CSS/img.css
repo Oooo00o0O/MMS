@@ -1,0 +1,62 @@
+/* ============================================================
+   部分 1: 容器与宽度控制 (核心修复)
+   ============================================================ */
+.internal-embed:has(.image-captions-figure) {
+    display: inline-block;
+    vertical-align: bottom; /* 底部对齐，防止多图并排时高低不平 */
+}
+
+.image-captions-figure {
+    /* 关键修改：让容器宽度严格等于图片宽度 */
+    width: min-content; 
+    display: inline-table; /* 保证结构紧凑 */
+    margin: 0;
+}
+
+/* ============================================================
+   部分 2: 图注文字美化 (仿论文风格)
+   ============================================================ */
+.image-captions-caption {
+    display: table-caption;
+    caption-side: bottom;
+    
+    /* 字体样式 */
+    text-align: center;
+    font-size: 0.85em;      /* 稍微调小字体 */
+    line-height: 1.35;      /* 紧凑的行高 */
+    color: var(--text-muted);
+    font-weight: 500;       /* 稍微加粗一点点，增加辨识度 */
+    
+    /* 间距 */
+    padding-top: 5px;
+    padding-bottom: 2px;
+}
+
+/* ============================================================
+   部分 3: 左右环绕逻辑 (保持不变)
+   ============================================================ */
+
+/* --- 右浮动 --- */
+.internal-embed:has(img[alt*="right"]),
+.image-captions-figure:has(img[alt*="right"]) {
+    float: right !important;
+    margin-left: 20px !important;
+    margin-bottom: 10px;
+    clear: right;
+}
+
+/* --- 左浮动 --- */
+.internal-embed:has(img[alt*="left"]),
+.image-captions-figure:has(img[alt*="left"]) {
+    float: left !important;
+    margin-right: 20px !important;
+    margin-bottom: 10px;
+    clear: left;
+}
+
+/* --- 防止图片本身再次浮动 --- */
+.internal-embed:has(img[alt*="right"]) img,
+.internal-embed:has(img[alt*="left"]) img {
+    float: none !important; 
+    margin: 0 !important;
+}

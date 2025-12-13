@@ -1,0 +1,73 @@
+@media print {
+    /* 1. 设定物理纸张和绝对边距 (保持不变) */
+    @page {
+        size: A4;
+        margin: 3cm; 
+    }
+
+    /* 2. 重置 Body (保持不变，作为兜底) */
+    body {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* 3. 【核心修复】直接强制正文容器和段落的字体 */
+    /* 不要只写 body，要写到具体的 class 和标签 */
+    .markdown-preview-view,
+    .markdown-preview-view p,
+    .markdown-preview-view ul,
+    .markdown-preview-view ol,
+    .markdown-preview-view li {
+        font-size: 11pt !important;
+        line-height: 1.5 !important;
+        color: #000 !important;
+    }
+
+    /* 4. 标题通常需要比正文大，如果不单独设置，可能会被上面的 11pt 覆盖 */
+    /* 这里给出一个通用的比例建议，您可以根据需要调整 */
+    .markdown-preview-view h1 { font-size: 14pt !important; line-height: 1.2 !important; margin-top: 0 !important;}
+    .markdown-preview-view h2 { font-size: 13pt !important; line-height: 1.3 !important; }
+    .markdown-preview-view h3 { font-size: 12pt !important; }
+
+    /* 5. 代码块设置 (保持您原来的设置) 
+    code, pre {
+        font-size: 1pt !important;
+        font-family: 'Consolas', monospace !important;
+        margin: 0 !important;
+        //有些主题给 code 加了 padding，这里可能需要清一下或微调
+        padding: 0 !important; 
+    } */
+
+/* 针对行内代码 (即用 ` 包裹的短语) */
+.markdown-preview-view code {
+    font-size: 10pt !important;  /* 这里建议比正文(11pt)稍小，或者设为 11pt */
+    
+    vertical-align: baseline !important; /* 修复可能出现的文字上下错位 */
+}
+
+/* 针对代码块 (即 ``` 包裹的整段代码) */
+.markdown-preview-view pre,
+.markdown-preview-view pre code {
+    font-size: 9pt !important;
+    line-height: 1.25 !important;
+}
+
+    /* 6. 打破宽度限制 (保持不变) */
+    .markdown-preview-view {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    /* 7. 修复缩进 (保持不变) */
+    .markdown-preview-view p,
+    .markdown-preview-view h1,
+    .markdown-preview-view h2, 
+    .markdown-preview-view h3 {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        max-width: none !important;
+
+    }
+}
