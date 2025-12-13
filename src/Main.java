@@ -5,55 +5,57 @@ import java.util.Scanner;
 
 // CLI entry point for the movie tracker.
 public class Main {
-    private static final String MOVIE_FILE = "data/movies.csv";
-    private static final String USER_FILE = "data/users.csv";
+    private static final String MOVIE_FILE = "data/movies.csv"; // File path for movie data storage (CSV format)
+    private static final String USER_FILE = "data/users.csv"; // File path for account data storage (CSV format)
 
     public static void main(String[] args) {
-        MovieLibrary movieLibrary = new MovieLibrary();
+        MovieLibrary movieLibrary = new MovieLibrary(); // Initialize movie library and load data from file
         if (!movieLibrary.loadFromFile(MOVIE_FILE)) {
-            return;
+            return; // Exit if movie data fails to load
         }
 
-        UserStorage userStorage = new UserStorage();
+        UserStorage userStorage = new UserStorage();// Initialize user storage and load existing user accounts
         HashMap<String, User> users = userStorage.loadUsers(USER_FILE);
+        // Initialize recommendation engine for personalized suggestions
         RecommendationEngine recommendationEngine = new RecommendationEngine();
         Scanner scanner = new Scanner(System.in);
 
         User currentUser = null;
-        boolean running = true;
-        while (running) {
+        boolean running = true;// Controls the main application loop
+        while (running) { // Show guest menu if no user is logged in
             if (currentUser == null) {
                 showGuestMenu();
                 String choice = scanner.nextLine().trim();
                 switch (choice) {
                     case "1" -> currentUser = handleLogin(scanner, users);
-                    case "2" -> createAccount(scanner, users, userStorage);
-                    case "3" -> running = false;
+                    case "2" -> createAccount(scanner, users, userStorage);// Create new account
+                    case "3" -> running = false;// Exit application
                     default -> System.out.println("Invalid option. Please try again.");
                 }
             } else {
+                // Show authenticated user menu when logged in
                 showUserMenu(currentUser);
                 String choice = scanner.nextLine().trim();   //trim avoid space
                 switch (choice) {
-                    case "1" -> browseMovies(movieLibrary, currentUser);
-                    case "2" -> {
-                        addMovieToWatchlist(scanner, currentUser, movieLibrary);
-                        userStorage.saveUsers(users, USER_FILE);
+                    case "1" -> browseMovies(movieLibrary, currentUser);// Display all movies
+                    case "2" -> { 
+                        addMovieToWatchlist(scanner, currentUser, movieLibrary);// Add movie to watchlist
+                        userStorage.saveUsers(users, USER_FILE);// Persist updated user data
                     }
                     case "3" -> {
-                        removeMovieFromWatchlist(scanner, currentUser, movieLibrary);
+                        removeMovieFromWatchlist(scanner, currentUser, movieLibrary);// Remove from watchlist
                         userStorage.saveUsers(users, USER_FILE);
                     }
-                    case "4" -> viewWatchlist(currentUser, movieLibrary);
+                    case "4" -> viewWatchlist(currentUser, movieLibrary);// Show user's watchlist
 
                     case "5" -> {
-                        markMovieAsWatched(scanner, currentUser, movieLibrary);
+                        markMovieAsWatched(scanner, currentUser, movieLibrary);// Mark movie as watched
                         userStorage.saveUsers(users, USER_FILE);
                     }
-                    case "6" -> viewHistory(currentUser, movieLibrary);
-                    case "7" -> getRecommendations(scanner, currentUser, movieLibrary, recommendationEngine);
+                    case "6" -> viewHistory(currentUser, movieLibrary);// Show watch history
+                    case "7" -> getRecommendations(scanner, currentUser, movieLibrary, recommendationEngine); // Get suggestions
                     case "8" -> {
-                        changePassword(scanner, currentUser);
+                        changePassword(scanner, currentUser);// Update user password
                         userStorage.saveUsers(users, USER_FILE);
                     }
                     case "9" -> {
@@ -70,6 +72,7 @@ public class Main {
         scanner.close();
         System.out.println("Goodbye!");
     }
+    //Displays the main menu for guest (unauthenticated) users
 
     private static void showGuestMenu() {
         System.out.println("\n--- Movie Tracker ---");
