@@ -72,8 +72,8 @@ public class Main {
         scanner.close();
         System.out.println("Goodbye!");
     }
+    
     //Displays the main menu for guest (unauthenticated) users
-
     private static void showGuestMenu() {
         System.out.println("\n--- Movie Tracker ---");
         System.out.println("1. Login");
@@ -82,6 +82,7 @@ public class Main {
         System.out.print("Choose an option: ");
     }
 
+    //Displays menu for logged-in users
     private static void showUserMenu(User user) {
         System.out.println("\n--- Welcome, " + user.getUsername() + " ---");
         System.out.println("1. Browse movies");
@@ -101,6 +102,7 @@ public class Main {
     private static User handleLogin(Scanner scanner, HashMap<String, User> users) {
         System.out.print("Username: ");
         String username = scanner.nextLine().trim();
+        //Check if username exists
         if (!users.containsKey(username)) {
             System.out.println("User not found.");
             return null;
@@ -121,6 +123,8 @@ public class Main {
         System.out.println("\n--- Create Account ---");
         System.out.print("Choose a username: ");
         String username = scanner.nextLine().trim();
+
+        //Validate username
         if (username.isEmpty()) {
             System.out.println("Username cannot be empty.");
             return;
@@ -135,6 +139,7 @@ public class Main {
         }
         System.out.print("Choose a password (5-14 characters): ");
         String password = scanner.nextLine().trim();
+        //Validate password length
         if (password.length() < 5 || password.length() > 14) {
             System.out.println("Password length must be between 5 and 14 characters.");
             return;
@@ -164,6 +169,7 @@ public class Main {
         }
     }
 
+    // Adds a movie to user's watchlist with validation
     private static void addMovieToWatchlist(Scanner scanner, User user, MovieLibrary library) {
         System.out.print("Enter movie ID to add: ");
         String id = scanner.nextLine().trim().toUpperCase();
@@ -277,6 +283,7 @@ public class Main {
         System.out.println((genres.size() + 1) + ". All");
 
         String genreFilter;
+        //Validate genre selection
         while (true) {
             System.out.print("Enter choice: ");
             String genreChoiceText = scanner.nextLine().trim();
@@ -292,7 +299,7 @@ public class Main {
                 }
                 System.out.println("Please enter a number between 1 and " + (genres.size() + 1) + ".");
             } catch (NumberFormatException e) {
-                System.out.println("Please enter a valid number.");
+                System.out.println("Please enter a valid number.");//Handle non-numeric input
             }
 
         }
@@ -305,6 +312,7 @@ public class Main {
         System.out.println("5. Random");
 
         int sortChoice;
+        //Validate sort option selection
         while (true) {
 
             System.out.print("Enter choice: ");
@@ -325,6 +333,7 @@ public class Main {
         String sortMode = chooseSortMode(sortChoice);
 
         int number;
+        //Validate recommendation count input
         while (true) {
             System.out.print("How many recommendations? (max 10): ");
             String text = scanner.nextLine().trim();
