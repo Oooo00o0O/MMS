@@ -2,11 +2,11 @@ import java.util.ArrayList;
 
 // Builds recommendation lists with genre filter and sort modes.
 public class RecommendationEngine {
-    public static final String MODE_RATING_DESC = "rating_desc";
-    public static final String MODE_RATING_ASC = "rating_asc";
-    public static final String MODE_YEAR_DESC = "year_desc";
-    public static final String MODE_YEAR_ASC = "year_asc";
-    public static final String MODE_RANDOM = "random";
+    public static final String MODE_RATING_DESC = "rating_desc";// Highest rating first
+    public static final String MODE_RATING_ASC = "rating_asc";// Lowest rating first
+    public static final String MODE_YEAR_DESC = "year_desc";// Latest movies first
+    public static final String MODE_YEAR_ASC = "year_asc";// Oldest movies first
+    public static final String MODE_RANDOM = "random";//Random
 
     // Collect distinct genres from all movies, sorted alphabetically, used in Main.
     public ArrayList<String> listGenres(MovieLibrary library) {
