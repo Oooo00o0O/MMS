@@ -37,7 +37,9 @@ public class Main {
                 showUserMenu(currentUser);
                 String choice = scanner.nextLine().trim();   //trim avoid space
                 switch (choice) {
-                    case "1" -> browseMovies(movieLibrary, currentUser);
+                    case "1" -> {
+                        browseMovies(movieLibrary, currentUser);
+                    }
                     case "2" -> {
                         addMovieToWatchlist(scanner, currentUser, movieLibrary);
                         userStorage.saveUsers(users, USER_FILE);// Persist updated user data
@@ -46,14 +48,19 @@ public class Main {
                         removeMovieFromWatchlist(scanner, currentUser, movieLibrary);
                         userStorage.saveUsers(users, USER_FILE);
                     }
-                    case "4" -> viewWatchlist(currentUser, movieLibrary);
-
+                    case "4" -> {
+                        viewWatchlist(currentUser, movieLibrary);
+                    }
                     case "5" -> {
                         markMovieAsWatched(scanner, currentUser, movieLibrary);
                         userStorage.saveUsers(users, USER_FILE);
                     }
-                    case "6" -> viewHistory(currentUser, movieLibrary);
-                    case "7" -> getRecommendations(scanner, currentUser, movieLibrary, recommendationEngine);
+                    case "6" -> {
+                        viewHistory(currentUser, movieLibrary);
+                                }
+                    case "7" -> {
+                        getRecommendations(scanner, currentUser, movieLibrary, recommendationEngine);
+                    }
                     case "8" -> {
                         changePassword(scanner, currentUser);
                         userStorage.saveUsers(users, USER_FILE);
