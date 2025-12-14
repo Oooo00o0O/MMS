@@ -5,40 +5,42 @@ import java.util.Scanner;
 
 // CLI entry point for the movie tracker.
 public class Main {
-    private static final String MOVIE_FILE = "data/movies.csv";
-    private static final String USER_FILE = "data/users.csv";
+    private static final String MOVIE_FILE = "data/movies.csv"; // File path for movie data storage (CSV format)
+    private static final String USER_FILE = "data/users.csv"; // File path for account data storage (CSV format)
 
     public static void main(String[] args) {
-        MovieLibrary movieLibrary = new MovieLibrary();
+        MovieLibrary movieLibrary = new MovieLibrary(); // Initialize movie library and load data from file
         if (!movieLibrary.loadFromFile(MOVIE_FILE)) {
-            return;
+            return; // Exit if movie data fails to load
         }
 
-        UserStorage userStorage = new UserStorage();
+        UserStorage userStorage = new UserStorage();// Initialize user storage and load existing user accounts
         HashMap<String, User> users = userStorage.loadUsers(USER_FILE);
+        // Initialize recommendation engine for personalized suggestions
         RecommendationEngine recommendationEngine = new RecommendationEngine();
         Scanner scanner = new Scanner(System.in);
 
         User currentUser = null;
-        boolean running = true;
-        while (running) {
+        boolean running = true;// Controls the main application loop
+        while (running) { // Show guest menu if no user is logged in
             if (currentUser == null) {
                 showGuestMenu();
                 String choice = scanner.nextLine().trim();
                 switch (choice) {
                     case "1" -> currentUser = handleLogin(scanner, users);
                     case "2" -> createAccount(scanner, users, userStorage);
-                    case "3" -> running = false;
+                    case "3" -> running = false;// Exit application
                     default -> System.out.println("Invalid option. Please try again.");
                 }
             } else {
+                // Show authenticated user menu when logged in
                 showUserMenu(currentUser);
                 String choice = scanner.nextLine().trim();   //trim avoid space
                 switch (choice) {
                     case "1" -> browseMovies(movieLibrary, currentUser);
                     case "2" -> {
                         addMovieToWatchlist(scanner, currentUser, movieLibrary);
-                        userStorage.saveUsers(users, USER_FILE);
+                        userStorage.saveUsers(users, USER_FILE);// Persist updated user data
                     }
                     case "3" -> {
                         removeMovieFromWatchlist(scanner, currentUser, movieLibrary);
@@ -70,7 +72,8 @@ public class Main {
         scanner.close();
         System.out.println("Goodbye!");
     }
-
+    
+    //Displays the main menu for guest (unauthenticated) users
     private static void showGuestMenu() {
         System.out.println("\n--- Movie Tracker ---");
         System.out.println("1. Login");
@@ -79,6 +82,7 @@ public class Main {
         System.out.print("Choose an option: ");
     }
 
+    //Displays menu for logged-in users
     private static void showUserMenu(User user) {
         System.out.println("\n--- Welcome, " + user.getUsername() + " ---");
         System.out.println("1. Browse movies");
@@ -98,6 +102,7 @@ public class Main {
     private static User handleLogin(Scanner scanner, HashMap<String, User> users) {
         System.out.print("Username: ");
         String username = scanner.nextLine().trim();
+        //Check if username exists
         if (!users.containsKey(username)) {
             System.out.println("User not found.");
             return null;
@@ -118,6 +123,8 @@ public class Main {
         System.out.println("\n--- Create Account ---");
         System.out.print("Choose a username: ");
         String username = scanner.nextLine().trim();
+
+        //Validate username
         if (username.isEmpty()) {
             System.out.println("Username cannot be empty.");
             return;
@@ -132,6 +139,7 @@ public class Main {
         }
         System.out.print("Choose a password (5-14 characters): ");
         String password = scanner.nextLine().trim();
+        //Validate password length
         if (password.length() < 5 || password.length() > 14) {
             System.out.println("Password length must be between 5 and 14 characters.");
             return;
@@ -161,6 +169,7 @@ public class Main {
         }
     }
 
+    // Adds a movie to user's watchlist with validation
     private static void addMovieToWatchlist(Scanner scanner, User user, MovieLibrary library) {
         System.out.print("Enter movie ID to add: ");
         String id = scanner.nextLine().trim().toUpperCase();
@@ -274,6 +283,7 @@ public class Main {
         System.out.println((genres.size() + 1) + ". All");
 
         String genreFilter;
+        //Validate genre selection
         while (true) {
             System.out.print("Enter choice: ");
             String genreChoiceText = scanner.nextLine().trim();
@@ -289,7 +299,7 @@ public class Main {
                 }
                 System.out.println("Please enter a number between 1 and " + (genres.size() + 1) + ".");
             } catch (NumberFormatException e) {
-                System.out.println("Please enter a valid number.");
+                System.out.println("Please enter a valid number.");//Handle non-numeric input
             }
 
         }
@@ -302,6 +312,7 @@ public class Main {
         System.out.println("5. Random");
 
         int sortChoice;
+        //Validate sort option selection
         while (true) {
 
             System.out.print("Enter choice: ");
@@ -322,6 +333,7 @@ public class Main {
         String sortMode = chooseSortMode(sortChoice);
 
         int number;
+        //Validate recommendation count input
         while (true) {
             System.out.print("How many recommendations? (max 10): ");
             String text = scanner.nextLine().trim();
