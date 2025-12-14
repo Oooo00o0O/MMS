@@ -7,11 +7,11 @@ public class History {
         this.movieId = movieId;
         this.watchedDate = watchedDate;
     }
-    //Gets the movie ID for this history entry
+
     public String getMovieId() {
         return movieId;
     }
-    //Gets the watch date for this history entry (AAAA-BB-CC format)
+
     public String getWatchedDate() {
         return watchedDate;
     }
