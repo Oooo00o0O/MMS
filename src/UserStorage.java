@@ -4,8 +4,10 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-
-// Loads and saves users.csv (username,password,watchlist,history).
+/*
+ # This class is responsible for loading user data from a CSV file and saving updated user data back to the file.
+ ## Users.csv (username,password,watchlist,history).
+ */
 public class UserStorage {
     public HashMap<String, User> loadUsers(String path) {
         HashMap<String, User> users = new HashMap<>();
@@ -16,13 +18,13 @@ public class UserStorage {
                 return users;
             }
             Scanner scanner = new Scanner(file);
-            if (scanner.hasNextLine()) {
+            if (scanner.hasNextLine()) {    // Skip header line
                 scanner.nextLine();
             }
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] parts = line.split(",", -1);  //-1 keep the empty between ","
-                if (parts.length < 4) {
+                if (parts.length < 4) {    // Ignore malformed lines
                     continue;
                 }
                 String username = parts[0].trim();
@@ -32,7 +34,7 @@ public class UserStorage {
                 Watchlist watchlist = new Watchlist(watchlistItems);
                 HistoryLog historyLog = new HistoryLog(historyEntries);
                 User user = new User(username, password, watchlist, historyLog);
-                users.put(username, user);
+                users.put(username, user);    // Store user in HashMap using username as the key
             }
             scanner.close();
         } catch (FileNotFoundException e) {
@@ -57,7 +59,7 @@ public class UserStorage {
         return list;
     }
 
-    // Split history string "id@date;id@date" into History records.
+ // Split history string "id@date;id@date" into History records.
     private ArrayList<History> parseHistory(String text) {
         ArrayList<History> list = new ArrayList<>();
         String trimmed = text.trim();
@@ -72,14 +74,14 @@ public class UserStorage {
             }
             String[] bits = entry.split("@");
             if (bits.length >= 2) {
-                list.add(new History(bits[0].toUpperCase(), bits[1]));
+                list.add(new History(bits[0].toUpperCase(), bits[1]));    // Valid movie ID and date
             } else {
-                list.add(new History(entry.toUpperCase(), ""));
+                list.add(new History(entry.toUpperCase(), ""));    // Movie ID exists but date is missing
             }
         }
         return list;
     }
-
+// Saves all user data back to a CSV file
     public void saveUsers(HashMap<String, User> users, String path) {
         try {
             PrintWriter writer = new PrintWriter(path);
